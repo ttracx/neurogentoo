@@ -29,11 +29,12 @@ RDEPEND="${COMMON_DEPEND}
 	"
 
 S=${WORKDIR}/${PN}
+UPSTREAM_FSLDIR="/usr/share/fsl"
 
 PATCHES=(
-		"${FILESDIR}/${PN}"-5.0.9-setup.patch \
-		"${FILESDIR}/${PN}"-5.0.9-headers.patch \
-		"${FILESDIR}/${PN}"-5.0.9-fsldir_redux.patch
+	"${FILESDIR}/${PN}"-5.0.9-setup.patch
+	"${FILESDIR}/${PN}"-5.0.9-headers.patch
+	"${FILESDIR}/${PN}"-5.0.9-fsldir_redux.patch
 )
 
 src_prepare(){
@@ -124,8 +125,9 @@ src_install() {
 	#the following is needed for FSL and depending programs to be able
 	#to find its files, since FSL uses an uncommon installation path:
 	#https://github.com/gentoo-science/sci/pull/612#r60289295
-	dosym /etc /usr/share/fsl/etc
-	dosym /usr/share/doc/${PF} /usr/share/fsl/doc
+	dosym /etc ${UPSTREAM_FSLDIR}/etc
+	dosym /usr/share/doc/${PF} ${UPSTREAM_FSLDIR}/doc
+	dosym /usr/bin ${UPSTREAM_FSLDIR}/bin
 
 	doenvd "${FILESDIR}"/99fsl
 	mv "${ED}"/usr/bin/{,fsl_}cluster || die
