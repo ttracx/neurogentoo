@@ -19,11 +19,11 @@ sync-uri = https://github.com/TheChymera/neurogentoo.git
 priority=8888
 ```
 
-You can alternatively enable the Gentoo Science overlay, which should provide a similar usage experience (though somewhat slower in periods of rapid development).
+You can alternatively enable the Gentoo Science overlay, which should provide a similar usage experience (though somewhat slower access to the very newest neuroscience packages).
 Simply cerate an `/etc/portage/repos.conf/science` file containing precisely:
 
 ```
-[sci]
+[science]
 location = /usr/local/portage/science
 sync-type = git
 sync-uri = https://github.com/gentoo-science/sci.git
