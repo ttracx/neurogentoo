@@ -5,17 +5,17 @@ EAPI=6
 
 NUMERIC_MODULE_NAME="openblas"
 
-inherit alternatives-2 eutils git-r3 multilib numeric numeric-int64-multibuild
+inherit alternatives-2 eutils multilib numeric numeric-int64-multibuild
 
 DESCRIPTION="Optimized BLAS library based on GotoBLAS2"
 HOMEPAGE="http://xianyi.github.com/OpenBLAS/"
-SRC_URI="https://dev.gentoo.org/~gienah/distfiles/${PN}-0.2.11-gentoo.patch"
-EGIT_REPO_URI="https://github.com/xianyi/OpenBLAS.git"
-EGIT_BRANCH="develop"
+SRC_URI="
+	https://github.com/xianyi/OpenBLAS/tarball/v${PV} -> ${P}.tar.gz
+	https://dev.gentoo.org/~gienah/distfiles/${PN}-0.2.11-gentoo.patch"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
 IUSE="dynamic openmp static-libs threads"
 
 RDEPEND=""
@@ -65,7 +65,14 @@ get_openblas_abi_cflags() {
 	fi
 	$(numeric-int64_is_int64_build) && \
 		openblas_abi_cflags+=( -DOPENBLAS_USE64BITINT )
+	use openmp && openblas_abi_cflags+=( -fopenmp )
 	echo "${openblas_abi_cflags[@]}"
+}
+
+src_unpack() {
+	default
+	find "${WORKDIR}" -maxdepth 1 -type d -name \*OpenBLAS\* && \
+		mv "${WORKDIR}"/*OpenBLAS* "${S}" || die
 }
 
 src_prepare() {
@@ -137,9 +144,9 @@ src_install() {
 			-i config_last.h \
 			|| die "Could not ensure there is no definition of USE64BITINT in config_last.h"
 		emake install \
-			PREFIX="${ED}"usr ${openblas_flags} \
-			OPENBLAS_INCLUDE_DIR="${ED}"usr/include/${PN} \
-			OPENBLAS_LIBRARY_DIR="${ED}"usr/$(get_libdir)
+			DESTDIR="${D}" PREFIX="${EPREFIX}" ${openblas_flags} \
+			OPENBLAS_INCLUDE_DIR='$(PREFIX)'/usr/include/${PN} \
+			OPENBLAS_LIBRARY_DIR='$(PREFIX)'/usr/$(get_libdir)
 		if ! use static-libs; then
 			rm "${ED}"usr/$(get_libdir)/lib*.a || die
 		fi
@@ -171,7 +178,7 @@ src_install() {
 	}
 	numeric-int64-multibuild_foreach_all_abi_variants run_in_build_dir my_src_install
 
-	printf "/usr/include/cblas.h ${PN}/cblas.h" > "${T}"/alternative-cblas-generic.sh
+	printf "/usr/include/cblas.h ${PN}/cblas.h" > "${T}"/alternative-cblas-generic.sh || die
 	numeric-int64-multibuild_install_alternative blas ${NUMERIC_MODULE_NAME}
 	numeric-int64-multibuild_install_alternative cblas ${NUMERIC_MODULE_NAME}
 

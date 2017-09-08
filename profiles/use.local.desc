@@ -29,7 +29,6 @@ dev-lang/path64:assembler - Build PathAS assembler
 dev-lang/path64:debugger - Build PathDB debugger
 dev-lang/path64:native - Use EKOPath/Path64 for bootstraping
 dev-lang/path64:valgrind - Support compiler debugging with dev-util/valgrind
-dev-lang/pgi:acml - Install AMD's core math library.
 dev-lang/pgi:cuda - Install PGI's CUDA components (e.g. for OpenACC)
 dev-lang/pgi:java - Install a PGI-tuned JRE.
 dev-libs/intel-common:compiler - Install the libraries needed for the icc and ifort compilers
@@ -121,11 +120,6 @@ sci-electronics/player:festival - Automatically generated description for festiv
 sci-electronics/player:openssl - Automatically generated description for openssl
 sci-electronics/player:sphinx2 - Automatically generated description for sphinx2
 sci-geosciences/qgis:grass - Add support for sci-geosciences/grass
-sci-libs/acml:gfortran - Fetch and install acml compiled with GNU FORTRAN compiler
-sci-libs/acml:ifort - Fetch and install acml compiled with the Intel FORTRAN compiler
-sci-libs/acml:int64 - Install the 64 bits integer library
-sci-libs/acml:open64 - Fetch and install acml compiled with the Open64 FORTRAN Compiler
-sci-libs/acml:pgi - Fetch and install acml compiled with the Portland Group FORTRAN compiler
 sci-libs/armadillo:arpack - Link with sci-libs/arpack libraries for eigen decomposition
 sci-libs/armadillo:atlas - Link with sci-libs/atlas libraries for cblas and clapack
 sci-libs/armadillo:mkl - Use matrix allocation from the Intel MKL sci-libs/mkl
@@ -155,6 +149,7 @@ sci-libs/clblas:performance - Copy performance scripts that can measure and grap
 sci-libs/clfft:callback_client - Build a command line clFFT client program that tests callback functionality.
 sci-libs/clfft:client - Build a command line clFFT client program.
 sci-libs/clrng:client - Build a command line clRNG client program.
+sci-libs/dealii:adolc - Adds support for ADOL-C (sci-libs/adolc)
 sci-libs/dealii:arpack - Adds support for ARPACK (sci-libs/arpack)
 sci-libs/dealii:c++11 - Compile the library with -std=c++11
 sci-libs/dealii:debug - Build an additional debug library with extra debug codepaths, like asserts and extra output. If you want to get meaningful backtraces see <http://www.gentoo.org/proj/en/qa/backtraces.xml>
@@ -162,6 +157,7 @@ sci-libs/dealii:mesh_converter - Build and install the mesh_converter executable
 sci-libs/dealii:metis - Add support for metis (sci-libs/metis)
 sci-libs/dealii:mumps - Add support for mumps (sci-libs/mumps)
 sci-libs/dealii:muparser - Add support for muparser (dev-cpp/muParser)
+sci-libs/dealii:nanoflann - Adds support for nanoflann (sci-libs/nanoflann)
 sci-libs/dealii:opencascade - Add support for opencascade (sci-libs/opencascade)
 sci-libs/dealii:p4est - Add support for p4est (sci-mathematics/p4est)
 sci-libs/dealii:parameter_gui - Build and install the parameter_gui executable
