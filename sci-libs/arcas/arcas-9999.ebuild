@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python{2_7,3_4} )
+PYTHON_COMPAT=( python{3_4,3_6} )
 
 inherit distutils-r1 git-r3
 
@@ -21,10 +21,14 @@ DEPEND="
 	"
 RDEPEND="
 	dev-python/docopt[${PYTHON_USEDEP}]
-	dev-python/hypothesis[${PYTHON_USEDEP}]
+	=dev-python/hypothesis-3.6.0-r1[${PYTHON_USEDEP}]
 	dev-python/pandas[${PYTHON_USEDEP}]
 	dev-python/pytz[${PYTHON_USEDEP}]
 	dev-python/ratelimit[${PYTHON_USEDEP}]
 	>=dev-python/requests-2.12.1[${PYTHON_USEDEP}]
 	dev-python/requests-mock[${PYTHON_USEDEP}]
 	"
+
+python_test() {
+	"${PYTHON}" setup.py test || die
+}
