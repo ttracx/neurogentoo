@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit gnome2-utils
+inherit eutils gnome2-utils
 
 DESCRIPTION="A simple medical imaging visualization tool"
 HOMEPAGE="https://github.com/neurolabusc/MRIcroGL"
