@@ -20,6 +20,8 @@ KEYWORDS=""
 DEPEND=""
 RDEPEND="
 	dev-python/argh[${PYTHON_USEDEP}]
-	dev-python/pandas[${PYTHON_USEDEP}]
+	dev-python/numpy[${PYTHON_USEDEP}]
+	<=dev-python/pandas-0.20.3[${PYTHON_USEDEP}]
+	dev-python/simplejson[${PYTHON_USEDEP}]
 	dev-python/sqlalchemy[${PYTHON_USEDEP}]
 	"
