@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -8,22 +8,24 @@ WANT_AUTOMAKE="1.15"
 WANT_LIBTOOL="latest"
 
 if [[ $PV = *9999* ]]; then
+	scm="git-r3"
+	SRC_URI=""
+	EGIT_REPO_URI="git://git.whamcloud.com/fs/lustre-release.git"
 	KEYWORDS=""
 	EGIT_BRANCH="master"
 else
+	scm=""
+	SRC_URI="https://dev.gentoo.org/~alexxy/distfiles/${P}.tar.gz"
 	KEYWORDS="~amd64"
-	EGIT_COMMIT="${PV}"
 fi
 
 SUPPORTED_KV_MAJOR=4
-SUPPORTED_KV_MINOR=1
+SUPPORTED_KV_MINOR=9
 
-inherit git-r3 autotools linux-info linux-mod toolchain-funcs udev flag-o-matic
+inherit ${scm} autotools linux-info linux-mod toolchain-funcs udev flag-o-matic
 
 DESCRIPTION="Lustre is a parallel distributed file system"
 HOMEPAGE="http://wiki.whamcloud.com/"
-SRC_URI=""
-EGIT_REPO_URI="git://git.whamcloud.com/fs/lustre-release.git"
 
 LICENSE="GPL-2"
 SLOT="0"
