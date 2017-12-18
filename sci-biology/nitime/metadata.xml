@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
@@ -10,9 +10,9 @@
 		<name>Gentoo Science Project</name>
 	</maintainer>
 	<longdescription lang="en">
-		Nitime is a library for time-series analysis of data from neuroscience experiments
-		in both the time and spectral domains.
-	</longdescription>
+Nitime is a library for time-series analysis of data from neuroscience experiments
+in both the time and spectral domains.
+</longdescription>
 	<upstream>
 		<remote-id type="github">nipy/nitime</remote-id>
 	</upstream>
