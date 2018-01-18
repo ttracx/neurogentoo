@@ -1,6 +1,5 @@
 [neuro]
-location = /usr/local/portage/neuro
-#sync-type = git
-auto-sync = no
-#sync-uri = https://github.com/TheChymera/neurogentoo.git
+location = /var/repos/neuro
+sync-type = git
+sync-uri = https://github.com/TheChymera/neurogentoo.git
 priority=8888
