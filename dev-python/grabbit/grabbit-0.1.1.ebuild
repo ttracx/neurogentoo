@@ -19,7 +19,7 @@ IUSE="test"
 
 DEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( dev-python/pytest[${PYTHON_USEDEP}] )
+	test? ( >=dev-python/pytest-3.4.1[${PYTHON_USEDEP}] )
 	"
 RDEPEND=""
 
