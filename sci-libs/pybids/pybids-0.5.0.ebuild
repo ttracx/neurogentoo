@@ -15,14 +15,15 @@ SRC_URI="https://github.com/INCF/pybids/archive/${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
+IUSE="test"
 
 DEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? ( dev-python/pytest[${PYTHON_USEDEP}] )
 	"
-#	test? ( dev-python/pytest[${PYTHON_USEDEP}] )
 RDEPEND="
 	dev-python/grabbit[${PYTHON_USEDEP}]
+	dev-python/num2words[${PYTHON_USEDEP}]
 	dev-python/numpy[${PYTHON_USEDEP}]
 	dev-python/pandas[${PYTHON_USEDEP}]
 	dev-python/patsy[${PYTHON_USEDEP}]
@@ -32,6 +33,6 @@ RDEPEND="
 	"
 
 # Tests are broken: https://github.com/INCF/pybids/issues/138
-#python_test() {
-#	py.test -v || die
-#}
+python_test() {
+	py.test -v || die
+}

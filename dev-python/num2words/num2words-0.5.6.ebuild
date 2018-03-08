@@ -8,9 +8,9 @@ PYTHON_REQ_USE="threads(+),sqlite"
 
 inherit distutils-r1
 
-DESCRIPTION="Get grabby with file trees"
-HOMEPAGE="https://github.com/grabbles/grabbit"
-SRC_URI="https://github.com/grabbles/grabbit/archive/${PV}.tar.gz -> ${P}.tar.gz"
+DESCRIPTION="Modules to convert numbers to words."
+HOMEPAGE="https://github.com/savoirfairelinux/num2words"
+SRC_URI="https://github.com/savoirfairelinux/num2words/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -20,10 +20,8 @@ IUSE=""
 DEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	"
-#	test? ( dev-python/pytest[${PYTHON_USEDEP}] )
 RDEPEND=""
 
-# Tests are broken https://github.com/grabbles/grabbit/issues/53
-#python_test() {
-#	py.test -v || die
-#}
+python_test() {
+	${EPYTHON} setup.py test || die
+}
