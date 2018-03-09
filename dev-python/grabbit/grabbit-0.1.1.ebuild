@@ -23,7 +23,6 @@ DEPEND="
 	"
 RDEPEND=""
 
-# Tests are broken https://github.com/grabbles/grabbit/issues/53
 python_test() {
 	py.test -v || die
 }
