@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -23,11 +23,12 @@ IUSE="afterimage boost complex-scalars cxx debug doc fftw
 # if both are enabled
 REQUIRED_USE="
 	afterimage? ( X )
+	complex-scalars? ( !hypre !superlu )
 	hdf5? ( mpi )
-	hypre? ( cxx mpi )
+	hypre? ( cxx mpi !superlu )
 	mumps? ( mpi scotch )
 	scotch? ( mpi )
-	^^ ( hypre superlu )
+	superlu? ( !hypre )
 "
 
 RDEPEND="
@@ -66,7 +67,7 @@ S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.7.0-disable-rpath.patch \
-	"${FILESDIR}"/${PN}-3.7.0-fix_sandbox_violation.patch
+	"${FILESDIR}"/${PN}-3.8.3-fix_sandbox_violation.patch
 )
 
 src_prepare() {

@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit cmake-utils toolchain-funcs multilib toolchain-funcs
 
@@ -16,8 +16,8 @@ SLOT="0"
 
 IUSE="
 	adolc arprec boost clp cppunit cuda eigen glpk gtest hdf5 hwloc hypre
-	matio metis mkl mumps netcdf petsc qd qt4 scalapack scotch sparse
-	superlu taucs tbb test threads tvmet yaml zlib
+	matio metis mkl mumps netcdf petsc qd scalapack scotch sparse
+	superlu taucs tbb test threads tvmet yaml zlib X
 "
 
 # TODO: fix export cmake function for tests
@@ -45,7 +45,6 @@ RDEPEND="
 	netcdf? ( sci-libs/netcdf )
 	petsc? ( sci-mathematics/petsc )
 	qd? ( sci-libs/qd )
-	qt4? ( dev-qt/qtgui:4 )
 	scalapack? ( virtual/scalapack )
 	scotch? ( sci-libs/scotch )
 	sparse? ( sci-libs/cxsparse sci-libs/umfpack )
@@ -54,11 +53,18 @@ RDEPEND="
 	tbb? ( dev-cpp/tbb )
 	tvmet? ( dev-libs/tvmet )
 	yaml? ( dev-cpp/yaml-cpp )
-	zlib? ( sys-libs/zlib )"
+	zlib? ( sys-libs/zlib )
+	X? ( x11-libs/libX11 )"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 S="${WORKDIR}/${P}-Source"
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-11.14.1-fix-install-paths.patch \
+	"${FILESDIR}"/${P}-fix_install_paths_for_destdir.patch
+	"${FILESDIR}"/${P}-fix_sundance_compilation.patch
+)
 
 trilinos_conf() {
 	local dirs libs d
@@ -77,69 +83,61 @@ trilinos_conf() {
 	[[ -n ${dirs} ]] && mycmakeargs+=( "-D${2}_INCLUDE_DIRS=${dirs:1}" )
 }
 
-trilinos_enable() {
-	cmake-utils_use $1 TPL_ENABLE_${2:-${1^^}}
-}
-
-src_prepare() {
-	epatch "${FILESDIR}"/${P}-fix-install-paths.patch
-	epatch "${FILESDIR}"/${P}-fix_install_paths_for_destdir.patch
-}
-
 src_configure() {
-
-	# temporarily disable SEACAS and pyTrilinos compilation
 	local mycmakeargs=(
 		-DBUILD_SHARED_LIBS=ON
 		-DCMAKE_INSTALL_PREFIX="${EPREFIX}"
-		-DTrilinos_ENABLE_ALL_PACKAGES=ON
-		-DTrilinos_ENABLE_SEACAS=OFF
-		-DTrilinos_ENABLE_PyTrilinos=OFF
+		-DTrilinos_INSTALL_CONFIG_DIR="${EPREFIX}/usr/$(get_libdir)/cmake"
 		-DTrilinos_INSTALL_INCLUDE_DIR="${EPREFIX}/usr/include/trilinos"
 		-DTrilinos_INSTALL_LIB_DIR="${EPREFIX}/usr/$(get_libdir)/trilinos"
-		-DTrilinos_INSTALL_CONFIG_DIR="${EPREFIX}/usr/$(get_libdir)/cmake"
+		-DTrilinos_ENABLE_ALL_PACKAGES=ON
+		-DTrilinos_ENABLE_CTrilinos=OFF
+		-DTrilinos_ENABLE_PyTrilinos=OFF
+		-DTrilinos_ENABLE_SEACASExodiff="$(usex netcdf)"
+		-DTrilinos_ENABLE_SEACASExodus="$(usex netcdf)"
+		-DTrilinos_ENABLE_TESTS="$(usex test)"
+		-DZoltan2_ENABLE_Experimental=ON
 		-DTPL_ENABLE_BinUtils=ON
-		-DTPL_ENABLE_MPI=ON
 		-DTPL_ENABLE_BLAS=ON
 		-DTPL_ENABLE_LAPACK=ON
-		$(cmake-utils_use test Trilinos_ENABLE_TESTS)
-		$(trilinos_enable adolc)
-		$(trilinos_enable arprec)
-		$(trilinos_enable boost Boost)
-		$(trilinos_enable boost BoostLib)
-		$(trilinos_enable cppunit Cppunit)
-		$(trilinos_enable clp Clp)
-		$(trilinos_enable cuda)
-		$(trilinos_enable cuda CUSPARSE)
-		$(trilinos_enable cuda Thrust)
-		$(trilinos_enable eigen Eigen)
-		$(trilinos_enable gtest gtest)
-		$(trilinos_enable glpk)
-		$(trilinos_enable hdf5)
-		$(trilinos_enable hwloc)
-		$(trilinos_enable hypre)
-		$(trilinos_enable matio)
-		$(trilinos_enable metis)
-		$(trilinos_enable mkl)
-		$(trilinos_enable mkl PARDISO_MKL)
-		$(trilinos_enable mumps)
-		$(trilinos_enable netcdf Netcdf)
-		$(trilinos_enable petsc)
-		$(trilinos_enable qd)
-		$(trilinos_enable qt4 QT)
-		$(trilinos_enable scalapack)
-		$(trilinos_enable scalapack BLACS)
-		$(trilinos_enable scotch Scotch)
-		$(trilinos_enable sparse AMD)
-		$(trilinos_enable sparse CSparse)
-		$(trilinos_enable sparse UMFPACK)
-		$(trilinos_enable superlu SuperLU)
-		$(trilinos_enable taucs)
-		$(trilinos_enable tbb)
-		$(trilinos_enable threads Pthread)
-		$(trilinos_enable tvmet)
-		$(trilinos_enable yaml yaml-cpp)
-		$(trilinos_enable zlib Zlib)
+		-DTPL_ENABLE_MPI=ON
+		-DTPL_ENABLE_ADOLC="$(usex adolc)"
+		-DTPL_ENABLE_AMD="$(usex sparse)"
+		-DTPL_ENABLE_ARPREC="$(usex arprec)"
+		-DTPL_ENABLE_BLACS="$(usex scalapack)"
+		-DTPL_ENABLE_BoostLib="$(usex boost)"
+		-DTPL_ENABLE_Boost="$(usex boost)"
+		-DTPL_ENABLE_Clp="$(usex clp)"
+		-DTPL_ENABLE_Cppunit="$(usex cppunit)"
+		-DTPL_ENABLE_CSparse="$(usex sparse)"
+		-DTPL_ENABLE_CUDA="$(usex cuda)"
+		-DTPL_ENABLE_CUSPARSE="$(usex cuda)"
+		-DTPL_ENABLE_Eigen="$(usex eigen)"
+		-DTPL_ENABLE_GLPK="$(usex glpk)"
+		-DTPL_ENABLE_gtest="$(usex gtest)"
+		-DTPL_ENABLE_HDF5="$(usex hdf5)"
+		-DTPL_ENABLE_HWLOC="$(usex hwloc)"
+		-DTPL_ENABLE_HYPRE="$(usex hypre)"
+		-DTPL_ENABLE_Matio="$(usex matio)"
+		-DTPL_ENABLE_METIS="$(usex metis)"
+		-DTPL_ENABLE_MKL="$(usex mkl)"
+		-DTPL_ENABLE_MUMPS="$(usex mumps)"
+		-DTPL_ENABLE_Netcdf="$(usex netcdf)"
+		-DTPL_ENABLE_PARDISO_MKL="$(usex mkl)"
+		-DTPL_ENABLE_PETSC="$(usex petsc)"
+		-DTPL_ENABLE_Pthread="$(usex threads)"
+		-DTPL_ENABLE_QD="$(usex qd)"
+		-DTPL_ENABLE_SCALAPACK="$(usex scalapack)"
+		-DTPL_ENABLE_Scotch="$(usex scotch)"
+		-DTPL_ENABLE_SuperLU="$(usex superlu)"
+		-DTPL_ENABLE_TAUCS="$(usex taucs)"
+		-DTPL_ENABLE_TBB="$(usex tbb)"
+		-DTPL_ENABLE_Thrust="$(usex cuda)"
+		-DTPL_ENABLE_TVMET="$(usex tvmet)"
+		-DTPL_ENABLE_UMFPACK="$(usex sparse)"
+		-DTPL_ENABLE_X11="$(usex X)"
+		-DTPL_ENABLE_yaml-cpp="$(usex yaml)"
+		-DTPL_ENABLE_Zlib="$(usex zlib)"
 	)
 
 	use eigen && \
@@ -176,32 +174,32 @@ src_configure() {
 		)
 	fi
 
-	# TODO: do we need that line?
+	#
+	# Make sure we use the compiler wrappers in order to build trilinos.
+	#
 	export CC=mpicc CXX=mpicxx && tc-export CC CXX
 
+	#
 	# cmake-utils eclass patches the base directory CMakeLists.txt
 	# which does not work for complex Trilinos CMake modules
+	#
 	CMAKE_BUILD_TYPE=RELEASE cmake-utils_src_configure
-
-	# TODO:
-	# python bindings with python-r1
-	# fix hypre bindings
-	# fix hdf5
-	# cuda/thrust is untested
-	# do we always need mpi? and for all packages: blah[mpi] ?
-	# install docs, examples
-	# see what packages are related, do we need REQUIRED_USE
-	# proper use flags description
-	# add more use flags/packages ?
 }
 
 src_install() {
 	cmake-utils_src_install
 
+	# Clean up the mess:
+	rm -r "${ED}"/TrilinosRepoVersion.txt "${ED}"/lib || die "rm failed"
+	mv "${ED}"/bin "${ED}/usr/$(get_libdir)"/trilinos || die "mv failed"
+
+	#
 	# register $(get_libdir)/trilinos in LDPATH so that the dynamic linker
 	# has a chance to pick up the libraries...
+	#
 	cat >> "${T}"/99trilinos <<- EOF
 	LDPATH="${EPREFIX}/usr/$(get_libdir)/trilinos"
+	PATH="${EPREFIX}/usr/$(get_libdir)/trilinos/bin"
 	EOF
 	doenvd "${T}"/99trilinos
 }
