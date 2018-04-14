@@ -1,6 +1,5 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
 EAPI=6
 
@@ -21,11 +20,12 @@ RDEPEND="dev-libs/expat
 	media-libs/qhull
 	media-video/mpeg-tools
 	sci-libs/gsl
-	sys-devel/llvm
+	sys-devel/llvm:*
 	virtual/jpeg:0
 	x11-libs/libGLw
 	x11-libs/libXft
 	x11-libs/libXi
+	x11-libs/libXp
 	x11-libs/libXpm
 	x11-libs/motif[-static-libs]"
 

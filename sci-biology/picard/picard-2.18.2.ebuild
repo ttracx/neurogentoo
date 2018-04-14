@@ -12,6 +12,10 @@ DESCRIPTION="Java-based command-line utilities that manipulate SAM/BAM/CRAM/VCF 
 HOMEPAGE="http://picard.sourceforge.net
 	http://broadinstitute.github.io/picard"
 EGIT_REPO_URI="https://github.com/broadinstitute/picard.git"
+EGIT_COMMIT="${PV}"
+# building outside of git is not possible,
+# see https://github.com/broadinstitute/picard/issues/605
+#SRC_URI="https://github.com/broadinstitute/picard/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -42,7 +46,8 @@ src_compile(){
 	# work around gradle writing $HOME/.gradle, requiring $HOME/.git and $HOME/.m2/
 	# https://github.com/samtools/htsjdk/issues/660#issuecomment-232155965
 	# make jure SDK-1.8 is available, JRE-1.8 is not enough
-	GRADLE_USER_HOME="${WORKDIR}" ./gradlew || die
+	# see more gradlew arg options in build.xml, especially jar versus shadowJar
+	GRADLE_USER_HOME="${WORKDIR}" ./gradlew --stacktrace --debug compileJava jar || die
 }
 
 src_install() {

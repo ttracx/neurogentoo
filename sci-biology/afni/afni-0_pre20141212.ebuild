@@ -1,8 +1,7 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=5
+EAPI=6
 
 inherit git-r3 cmake-utils
 
@@ -22,7 +21,7 @@ RDEPEND="dev-libs/expat
 	media-libs/qhull
 	media-video/mpeg-tools
 	sci-libs/gsl
-	sys-devel/llvm
+	sys-devel/llvm:*
 	virtual/jpeg:0
 	x11-libs/libGLw
 	x11-libs/libXft
