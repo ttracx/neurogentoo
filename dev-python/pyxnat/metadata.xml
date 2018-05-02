@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>horea.christ@gmail.com</email>
+		<name>Horea Christian</name>
+	</maintainer>
+	<maintainer type="project">
+		<email>sci@gentoo.org</email>
+		<name>Gentoo Science Project</name>
+	</maintainer>
+	<longdescription lang="en">
+		Pyxnat is a Python library to communicate with XNAT which is an extensible
+		database system for imaging and related data.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">pyxnat/pyxnat</remote-id>
+	</upstream>
+</pkgmetadata>

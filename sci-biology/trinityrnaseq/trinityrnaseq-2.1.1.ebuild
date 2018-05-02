@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -20,7 +20,7 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}
 	sci-biology/parafly
-	>=sci-biology/jellyfish-2.1.4
+	>=sci-biology/jellyfish-2.1.4:2
 	>=sci-libs/htslib-1.2.1
 	sci-biology/samtools:0.1-legacy
 	>=sci-biology/trimmomatic-0.32
@@ -36,7 +36,7 @@ RDEPEND="${DEPEND}
 # optionally install https://github.com/HpcGridRunner/HpcGridRunner/releases
 
 src_prepare(){
-	epatch "${FILESDIR}"/disable_some_plugins.patch
+	epatch "${FILESDIR}"/trinityrnaseq-2.1.1-disable_some_plugins.patch
 }
 
 #src_compile(){
