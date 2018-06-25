@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit eutils multilib pax-utils git-r3 toolchain-funcs
 
@@ -25,7 +25,6 @@ RDEPEND="dev-libs/expat
 	x11-libs/libGLw
 	x11-libs/libXft
 	x11-libs/libXi
-	x11-libs/libXp
 	x11-libs/libXpm
 	x11-libs/motif[-static-libs]"
 
@@ -41,6 +40,7 @@ BUILD="linux_fedora_19_64"
 BIN_CONFLICTS=(qdelaunay whirlgif djpeg cjpeg qhull rbox count mpeg_encode)
 
 src_prepare() {
+	find -type f -exec sed -i -e "s/-lXp //g" {} +
 	cp other_builds/Makefile.${BUILD} Makefile || die "Could not copy Makefile"
 	sed -e "s~CC     = /usr/bin/gcc -O2 -m64~CC     = $(tc-getCC) \$(CFLAGS)~" \
 		-e "s~CCMIN  = /usr/bin/gcc -m64~CCMIN  = $(tc-getCC) \$(CFLAGS)~" \
