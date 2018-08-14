@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit cmake-utils git-r3 multilib
 
@@ -14,13 +14,13 @@ SLOT="0"
 LICENSE="BSD"
 KEYWORDS=""
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+DEPEND=">=dev-util/cmake-3.10.3"
+RDEPEND=""
 
 src_install() {
 	cd "${WORKDIR}/${P}_build/ANTS-build" || die "build dir not found"
 	default
-	cd "${WORKDIR}/${P}/Scripts" || die "scripts dir not found"
+	cd "${WORKDIR}/ANTs-${PV}/Scripts" || die "scripts dir not found"
 	dobin *.sh
 	dodir /usr/$(get_libdir)/ants
 	install -t "${D}"usr/$(get_libdir)/ants *

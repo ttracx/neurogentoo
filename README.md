@@ -1,3 +1,8 @@
+# THIS OVERLAY HAS BEEN DEPRECATED 
+
+Gentoo Linux neuroscience ebuild development and distribution has been wholly moved to the [Gentoo Science Overlay](https://github.com/gentoo/sci).
+We keep this repository online for redirection (many pages still link here) and historical reference.
+
 # NeuroGentoo Overlay
 <p align="center">
   <img src="http://chymera.eu/img/ng_medium.png"/>
