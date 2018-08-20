@@ -3,6 +3,8 @@
 Gentoo Linux neuroscience ebuild development and distribution has been wholly moved to the [Gentoo Science Overlay](https://github.com/gentoo/sci).
 We keep this repository online for redirection (many pages still link here) and historical reference.
 
+Other related resources: [Research Paper](https://riojournal.com/article/12095/) | [Conference Pitch](https://www.youtube.com/watch?v=l4gF3y9btw4) | [Podcast Episode](https://flossforscience.github.io/podcast/season-1-episode-6)
+
 # NeuroGentoo Overlay
 <p align="center">
   <img src="http://chymera.eu/img/ng_medium.png"/>
